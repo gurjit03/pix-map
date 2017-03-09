@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Getting and displaying image data</title>
+    <script>
+        /******************************\
+            Pixel Array is going to be 2D array where each nested array represent a row
+            Each nested array will have objects having 3 properties red,green,blue
+            that will represent a single pixel of that image
+            
+            luminosity = 0.2126R + 0.7152G + 0.0722R
+        \******************************/
+        var pixelArray = [];
+        var getFormattedData = function(pixelData) {
+            let red = pixelData[0]/255;
+            let green = pixelData[1]/255;
+            let blue = pixelData[2]/255;
+            let intensity = 0.2126*red + 0.7152*green + 0.0722*blue;
+            let newIntensity = (intensity).toFixed(2);
+            return {
+                intensity: newIntensity    
+            }    
+        }
+        
+        window.addEventListener('load',()=> {
+            let image = document.getElementById('image');
+            let canvas = document.createElement('canvas');
+            let output = document.getElementById('output');    
+            canvas.width = image.width;
+            canvas.height = image.height;
+            canvas.getContext('2d').drawImage(image, 0, 0, image.width, image.height);
+            
+            output.innerHTML = "<p>Getting the pixel array wait please .......</p>";
+            window.setTimeout(()=>{
+                for(let y=0;y < canvas.height; ++y){
+                pixelArray.push([]);
+                for(let x=0; x < canvas.width; ++x) {
+                    let pixelData = canvas.getContext('2d').getImageData(x, y, 1, 1).data;
+                    pixelArray[y].push(getFormattedData(pixelData));       
+                    }
+                }
+                output.innerHTML = "<p>Loaded check console.</p>"
+                console.log(pixelArray);    
+            },500)
+            
+        })
+    </script>
+</head>
+<body>
+    <h1>Getting the image data of the following image</h1>
+    <div id="output">
+        
+    </div>
+    <img id="image" src="image.png" alt="image"/>
+</body>
+</html>

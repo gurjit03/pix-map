@@ -18,9 +18,7 @@
             let blue = pixelData[2]/255;
             let intensity = 0.2126*red + 0.7152*green + 0.0722*blue;
             let newIntensity = (intensity).toFixed(2);
-            return {
-                intensity: newIntensity    
-            }    
+            return newIntensity;    
         }
         
         window.addEventListener('load',()=> {
@@ -52,6 +50,6 @@
     <div id="output">
         
     </div>
-    <img id="image" src="image.png" alt="image"/>
+    <img id="image" src="image.jpg" alt="image"/>
 </body>
 </html>
